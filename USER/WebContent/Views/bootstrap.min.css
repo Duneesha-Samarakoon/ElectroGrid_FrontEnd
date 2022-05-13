@@ -1,0 +1,20 @@
+<body>
+<div class="container"> 
+ 	<div class="row">
+ 		<div class="col-8"> 
+ 			<h1 class="m-3">User details</h1> 
+ 			
+ 			<form id="formUser"> 
+ 			</form>
+		</div>
+ 	</div>
+ 
+ 	<br> 
+	<div class="row">
+		 <div class="col-12" id="colStudents">
+		 
+		 </div>
+	</div>
+</div>
+</body>
+
