@@ -19,66 +19,128 @@ public class User
 			return con; 
 	} 
 	
-	public String getUserDetails(String userID)
+//	public String getUserDetails(String userID)
+//
+//	{
+//		String output = "";
+//		try
+//		{
+//			Connection con = connect();
+//			if (con == null)
+//			{
+//				return "Error while connecting to the database for reading";
+//			}
+//			// Prepare the html table to be displayed
+//			output = "<table border='1'><tr><th>User Code</th><th>User Name</th>" +"<th>Province</th>" + 
+//					 "<th>Area Office</th>" +"<th>Telephone</th>" +"<th>Email</th>" +"<th>Accounts</th>" +
+//					 "<th>Update</th><th>Remove</th></tr>";
+//			
+//			String query = "select * from user where userId='"+userID+"'";
+//			Statement stmt = con.createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			
+//			// iterate through the rows in the result set
+//			while (rs.next())
+//			{ 
+//				 String userID1 = Integer.toString(rs.getInt("userID")); 
+//				 String userCode = rs.getString("userCode"); 
+//				 String userName = rs.getString("userName"); 
+//				 String province = rs.getString("province");
+//				 String areaOffice = rs.getString("areaOffice");
+//				 String userTP = rs.getString("userTP"); 
+//				 String userEmail = rs.getString("userEmail"); 
+//				 String UserAccounts = rs.getString("UserAccounts"); 
+//				 
+//				 // Add into the html table
+//				 output += "<tr><td>" + userCode + "</td>"; 
+//				 output += "<td>" + userName + "</td>"; 
+//				 output += "<td>" + province + "</td>"; 
+//				 output += "<td>" + areaOffice + "</td>"; 
+//				 output += "<td>" + userTP + "</td>"; 
+//				 output += "<td>" + userEmail + "</td>"; 
+//				 output += "<td>" + UserAccounts + "</td>"; 
+//				 
+//				 // buttons
+//				 output += "<td><input name='btnUpdate' type='button' value='Update User' class='btn btn-secondary'></td>"
+//				 + "<td><form method='post' action='users.jsp'>"+ "<input name='btnRemove' type='submit' value='Delete User' class='btn btn-danger'>"
+//				 + "<input name='userID' type='hidden' value='" + userID1
+//				 + "'>" + "</form></td></tr>";
+//			}
+//			con.close();
+//			// Complete the html table
+//			output += "</table>";
+//
+//		}
+//		catch (Exception e)
+//		{
+//			output = "Error while reading the user details";
+//			System.err.println(e.getMessage());
+//		}
+//		return output;
+//	}
+	
+//Reading Users	
+	public String readUsers() 
+	 { 
+		 String output = ""; 
+		 try
+		 { 
+			 Connection con = connect(); 
+			 if (con == null) 
+			 {return "Error while connecting to the database for reading."; } 
+			 
+			 // Prepare the html table to be displayed
+			 output = "<table border='1'><tr><th>User Code</th><th>User Name</th>"
+			 +"<th>Province</th>" + 
+			 "<th>Area Office</th>" +"<th>Telephone</th>" 
+			 +"<th>Email</th>" +"<th>Accounts</th>" +
+			 "<th>Update</th><th>Remove</th></tr>"; 
+			 
+			 
+			 String query = "select * from user"; 
+			 Statement stmt = con.createStatement(); 
+			 ResultSet rs = stmt.executeQuery(query); 
 
-	{
-		String output = "";
-		try
-		{
-			Connection con = connect();
-			if (con == null)
-			{
-				return "Error while connecting to the database for reading";
-			}
-			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>User Code</th><th>User Name</th>" +"<th>Province</th>" + 
-					 "<th>Area Office</th>" +"<th>Telephone</th>" +"<th>Email</th>" +"<th>Accounts</th>" +
-					 "<th>Update</th><th>Remove</th></tr>";
-			
-			String query = "select * from user where userId='"+userID+"'";
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			
-			// iterate through the rows in the result set
-			while (rs.next())
-			{ 
-				 String userID1 = Integer.toString(rs.getInt("userID")); 
+			 // iterate through the rows in the result set
+			 while (rs.next()) 
+			 { 
+				 String userID = Integer.toString(rs.getInt("userID")); 
 				 String userCode = rs.getString("userCode"); 
 				 String userName = rs.getString("userName"); 
 				 String province = rs.getString("province");
-				 String areaOffice = rs.getString("areaOffice");
-				 String userTP = rs.getString("userTP"); 
-				 String userEmail = rs.getString("userEmail"); 
-				 String UserAccounts = rs.getString("UserAccounts"); 
+				 String area = rs.getString("areaOffice");
+				 String UserTP = rs.getString("userTP"); 
+				 String email = rs.getString("userEmail"); 
+				 String accounts = rs.getString("UserAccounts"); 
 				 
 				 // Add into the html table
-				 output += "<tr><td>" + userCode + "</td>"; 
+				 output += "<tr><td><input id='hidUserIDUpdate' name='hidUserIDUpdate'type='hidden' value='" + userID + " '>" + userCode + "</td>"; 
 				 output += "<td>" + userName + "</td>"; 
 				 output += "<td>" + province + "</td>"; 
-				 output += "<td>" + areaOffice + "</td>"; 
-				 output += "<td>" + userTP + "</td>"; 
-				 output += "<td>" + userEmail + "</td>"; 
-				 output += "<td>" + UserAccounts + "</td>"; 
+				 output += "<td>" + area + "</td>"; 
+				 output += "<td>" + UserTP + "</td>"; 
+				 output += "<td>" + email + "</td>"; 
+				 output += "<td>" + accounts + "</td>"; 
 				 
 				 // buttons
-				 output += "<td><input name='btnUpdate' type='button' value='Update User' class='btn btn-secondary'></td>"
-				 + "<td><form method='post' action='users.jsp'>"+ "<input name='btnRemove' type='submit' value='Delete User' class='btn btn-danger'>"
-				 + "<input name='userID' type='hidden' value='" + userID1
-				 + "'>" + "</form></td></tr>";
-			}
-			con.close();
-			// Complete the html table
-			output += "</table>";
+				 output += "<td><input name='btnUpdate'type='button' value='Update'class='btnUpdate btn btn-secondary'></td>"
+				         + "<td><input name='btnRemove'type='button' value='Remove'class='btnRemove btn btn-danger'data-userid='"+ userID + "'>" + "</td></tr>"; 
+			 } 
+			 
+			 con.close();
+			 
+			 // Complete the html table
+			 output += "</table>"; 
+		 } 
+		 catch (Exception e) 
+		 { 
+			 output = "Error while reading the user details."; 
+			 System.err.println(e.getMessage()); 
+		 } 
+		 return output; 
+	 } 
 
-		}
-		catch (Exception e)
-		{
-			output = "Error while reading the user details";
-			System.err.println(e.getMessage());
-		}
-		return output;
-	}
-	
+	// Insert users
 	public String insertUser(String userCode, String userName, String province, String areaOffice, String userTP , String userEmail, String UserAccounts) 
 	{ 
 		String output = ""; 
@@ -105,76 +167,20 @@ public class User
 			 
 			 // execute the statement
 			 preparedStmt.execute(); 
-			 con.close(); 
+			 con.close();
+			 String newUsers = readUsers();
+			 output = "{\"status\":\"success\", \"data\": \"" +newUsers + "\"}";
 			 
-			 output = "Inserted successfully"; 
 		} 
 		catch (Exception e) 
 		{ 
-			 output = "Error while inserting the users."; 
+			 output = "{\"status\":\"error\", \"data\":\"Error while inserting the User.\"}"; 
 			 System.err.println(e.getMessage()); 
 		 } 
 		return output; 
 	} 
-//	
-	public String readUsers() 
-	 { 
-		 String output = ""; 
-		 try
-		 { 
-			 Connection con = connect(); 
-			 if (con == null) 
-			 {return "Error while connecting to the database for reading."; } 
-			 
-			 // Prepare the html table to be displayed
-			 output = "<table border='1'><tr><th>User Code</th><th>User Name</th>" +"<th>Province</th>" + 
-			 "<th>Area Office</th>" +"<th>Telephone</th>" +"<th>Email</th>" +"<th>Accounts</th>" +
-			 "<th>Update</th><th>Remove</th></tr>"; 
-			 
-			 String query = "select * from user"; 
-			 Statement stmt = con.createStatement(); 
-			 ResultSet rs = stmt.executeQuery(query); 
-			 // iterate through the rows in the result set
-			 
-			 while (rs.next()) 
-			 { 
-				 String userID = Integer.toString(rs.getInt("userID")); 
-				 String userCode = rs.getString("userCode"); 
-				 String userName = rs.getString("userName"); 
-				 String province = rs.getString("province");
-				 String area = rs.getString("areaOffice");
-				 String UserTP = rs.getString("userTP"); 
-				 String email = rs.getString("userEmail"); 
-				 String accounts = rs.getString("UserAccounts"); 
-				 
-				 // Add into the html table
-				 output += "<tr><td>" + userCode + "</td>"; 
-				 output += "<td>" + userName + "</td>"; 
-				 output += "<td>" + province + "</td>"; 
-				 output += "<td>" + area + "</td>"; 
-				 output += "<td>" + UserTP + "</td>"; 
-				 output += "<td>" + email + "</td>"; 
-				 output += "<td>" + accounts + "</td>"; 
-				 
-				 // buttons
-				 output += "<td><input name='btnUpdate' type='button' value='Update User' class='btn btn-secondary'></td>"
-				 + "<td><form method='post' action='users.jsp'>"+ "<input name='btnRemove' type='submit' value='Delete User' class='btn btn-danger'>"
-				 + "<input name='userID' type='hidden' value='" + userID 
-				 + "'>" + "</form></td></tr>"; 
-			 } 
-			 
-			 con.close(); 
-			 // Complete the html table
-			 output += "</table>"; 
-		 } 
-		 catch (Exception e) 
-		 { 
-			 output = "Error while reading the user details."; 
-			 System.err.println(e.getMessage()); 
-		 } 
-		 return output; 
-	 } 
-//
+	
+//update users
 public String updateUser(String userID, String userCode, String userName, String province, String areaOffice , String userTP, String userEmail, String UserAccounts) 
 	 { 
 		 String output = ""; 
@@ -202,11 +208,12 @@ public String updateUser(String userID, String userCode, String userName, String
 			 // execute the statement
 			 preparedStmt.execute(); 
 			 con.close(); 
-			 output = "User Updated successfully"; 
+			 String newUsers = readUsers();
+			 output = "{\"status\":\"success\", \"data\": \"" + newUsers + "\"}"; 
 		 } 
 		 catch (Exception e) 
 		 { 
-			 output = "Error while updating the User details."; 
+			 output = "{\"status\":\"error\", \"data\":\"Error while updating the User.\"}";  
 			 System.err.println(e.getMessage()); 
 		 } 
 	 return output; 
@@ -235,12 +242,13 @@ public String deleteUser(String userID)
 		 // execute the statement
 		 preparedStmt.execute(); 
 		 con.close(); 
+		 String newUsers = readUsers();
+		 output = "{\"status\":\"success\", \"data\": \"" + newUsers + "\"}";
 		 
-		 output = "User Deleted successfully"; 
 	 } 
 	 catch (Exception e) 
 	 { 
-		 output = "Error while deleting the User details."; 
+		 output = "{\"status\":\"error\", \"data\": \"Error while deleting the User.\"}"; 
 		 System.err.println(e.getMessage()); 
 	 } 
 	 return output; 
